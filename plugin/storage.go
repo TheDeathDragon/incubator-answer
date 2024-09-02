@@ -22,9 +22,10 @@ package plugin
 type UploadSource string
 
 const (
-	UserAvatar    UploadSource = "user_avatar"
-	UserPost      UploadSource = "user_post"
-	AdminBranding UploadSource = "admin_branding"
+	UserAvatar     UploadSource = "user_avatar"
+	UserPost       UploadSource = "user_post"
+	UserAttachment UploadSource = "user_attachment"
+	AdminBranding  UploadSource = "admin_branding"
 )
 
 var (
@@ -47,6 +48,43 @@ var (
 			".jpeg": true,
 			".png":  true,
 			".ico":  true,
+		},
+		UserAttachment: {
+			".zip":   true,
+			".rar":   true,
+			".7z":    true,
+			".tar":   true,
+			".gz":    true,
+			".bz2":   true,
+			".xz":    true,
+			".pdf":   true,
+			".doc":   true,
+			".docx":  true,
+			".xls":   true,
+			".xlsx":  true,
+			".ppt":   true,
+			".pptx":  true,
+			".txt":   true,
+			".md":    true,
+			".csv":   true,
+			".json":  true,
+			".xml":   true,
+			".html":  true,
+			".htm":   true,
+			".js":    true,
+			".css":   true,
+			".java":  true,
+			".kt":    true,
+			".c":     true,
+			".cpp":   true,
+			".h":     true,
+			".hpp":   true,
+			".bat":   true,
+			".sh":    true,
+			".py":    true,
+			".apk":   true,
+			".diff":  true,
+			".patch": true,
 		},
 	}
 )

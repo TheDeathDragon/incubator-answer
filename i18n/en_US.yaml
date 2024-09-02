@@ -642,6 +642,30 @@ ui:
       text: Help
     hr:
       text: Horizontal rule
+    attachment:
+      text: Attachment
+      add_attachment: Add Attachment
+      tab_file: Local File
+      tab_url: Remote Link
+      form_file:
+        fields:
+          file:
+            label: Select File
+            msg:
+              empty: Please select a file
+              max_size: File size cannot exceed 50 MB
+          desc:
+            label: File Description
+      form_url:
+        fields:
+          url:
+            label: URL
+            msg:
+              empty: Please enter a URL
+          name:
+            label: File Name
+      btn_cancel: Cancel
+      btn_submit: Submit
     image:
       text: Image
       add_image: Add image

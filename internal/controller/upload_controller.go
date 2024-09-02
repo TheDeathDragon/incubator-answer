@@ -36,6 +36,8 @@ const (
 	fileFromAvatar = "avatar"
 	// file is logo/icon images
 	fileFromBranding = "branding"
+	// file is attachment
+	fileFromAttachment = "attachment"
 )
 
 // UploadController upload controller
@@ -72,6 +74,8 @@ func (uc *UploadController) UploadFile(ctx *gin.Context) {
 		url, err = uc.uploaderService.UploadAvatarFile(ctx)
 	case fileFromPost:
 		url, err = uc.uploaderService.UploadPostFile(ctx)
+	case fileFromAttachment:
+		url, err = uc.uploaderService.UploadAttachmentFile(ctx)
 	case fileFromBranding:
 		url, err = uc.uploaderService.UploadBrandingFile(ctx)
 	default:

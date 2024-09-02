@@ -35,6 +35,18 @@ func (am *AuthUserMiddleware) VisitAuth() gin.HandlerFunc {
 			return
 		}
 
+		// If visit attachment, no need to check visit token. Because the attachment is public.
+		if strings.HasPrefix(ctx.Request.URL.Path, "/uploads/attachment/") {
+			ctx.Next()
+			return
+		}
+
+		// If visit post image, no need to check visit token. Because the post image is public.
+		if strings.HasPrefix(ctx.Request.URL.Path, "/uploads/post/") {
+			ctx.Next()
+			return
+		}
+
 		siteLogin, err := am.siteInfoCommonService.GetSiteLogin(ctx)
 		if err != nil {
 			return

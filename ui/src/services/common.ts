@@ -30,6 +30,13 @@ export const uploadImage = (params: { file: File; type: Type.UploadType }) => {
   return request.post('/answer/api/v1/file', form);
 };
 
+export const uploadFile = (params: { file: File; type: Type.UploadType }) => {
+  const form = new FormData();
+  form.append('source', String(params.type));
+  form.append('file', params.file);
+  return request.post('/answer/api/v1/file', form);
+};
+
 export const queryQuestionByTitle = (title: string) => {
   return request.get(`/answer/api/v1/question/similar?title=${title}`);
 };

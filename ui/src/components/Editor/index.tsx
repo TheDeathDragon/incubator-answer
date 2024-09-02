@@ -37,6 +37,7 @@ import {
   Heading,
   Help,
   Hr,
+  Attachment,
   Image,
   Indent,
   Italice,
@@ -127,6 +128,7 @@ const MDEditor: ForwardRefRenderFunction<EditorRef, Props> = (
               <Code />
               <LinkItem />
               <BlockQuote />
+              <Attachment editorInstance={editor} />
               <Image editorInstance={editor} />
               <Table />
               <div className="toolbar-divider" />

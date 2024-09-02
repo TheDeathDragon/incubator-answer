@@ -48,6 +48,7 @@ const (
 	avatarSubPath      = "avatar"
 	avatarThumbSubPath = "avatar_thumb"
 	postSubPath        = "post"
+	attachmentSubPath  = "attachment"
 	brandingSubPath    = "branding"
 )
 
@@ -56,6 +57,7 @@ var (
 		avatarSubPath,
 		avatarThumbSubPath,
 		postSubPath,
+		attachmentSubPath,
 		brandingSubPath,
 	}
 	supportedThumbFileExtMapping = map[string]imaging.Format{
@@ -69,6 +71,7 @@ var (
 type UploaderService interface {
 	UploadAvatarFile(ctx *gin.Context) (url string, err error)
 	UploadPostFile(ctx *gin.Context) (url string, err error)
+	UploadAttachmentFile(ctx *gin.Context) (url string, err error)
 	UploadBrandingFile(ctx *gin.Context) (url string, err error)
 	AvatarThumbFile(ctx *gin.Context, fileName string, size int) (url string, err error)
 }
@@ -173,6 +176,32 @@ func (us *uploaderService) AvatarThumbFile(ctx *gin.Context, fileName string, si
 	return saveFilePath, nil
 }
 
+func (us *uploaderService) UploadAttachmentFile(ctx *gin.Context) (url string, err error) {
+	url, err = us.tryToUploadByPlugin(ctx, plugin.UserAttachment)
+	if err != nil {
+		return "", err
+	}
+	if len(url) > 0 {
+		return url, nil
+	}
+
+	ctx.Request.Body = http.MaxBytesReader(ctx.Writer, ctx.Request.Body, 50*1024*1024)
+	file, fileHeader, err := ctx.Request.FormFile("file")
+	if err != nil {
+		return "", errors.BadRequest(reason.RequestFormatError).WithError(err)
+	}
+	defer file.Close()
+
+	fileExt := strings.ToLower(path.Ext(fileHeader.Filename))
+	if _, ok := plugin.DefaultFileTypeCheckMapping[plugin.UserAttachment][fileExt]; !ok {
+		return "", errors.BadRequest(reason.RequestFormatError).WithError(err)
+	}
+
+	newFilename := fmt.Sprintf("%s%s", uid.IDStr12(), fileExt)
+	attachmentFilePath := path.Join(attachmentSubPath, newFilename)
+	return us.uploadAttachment(ctx, fileHeader, attachmentFilePath)
+}
+
 func (us *uploaderService) UploadPostFile(ctx *gin.Context) (
 	url string, err error) {
 	url, err = us.tryToUploadByPlugin(ctx, plugin.UserPost)
@@ -225,6 +254,27 @@ func (us *uploaderService) UploadBrandingFile(ctx *gin.Context) (
 	newFilename := fmt.Sprintf("%s%s", uid.IDStr12(), fileExt)
 	avatarFilePath := path.Join(brandingSubPath, newFilename)
 	return us.uploadFile(ctx, fileHeader, avatarFilePath)
+}
+
+func (us *uploaderService) uploadAttachment(ctx *gin.Context, file *multipart.FileHeader, fileSubPath string) (
+	url string, err error) {
+	siteGeneral, err := us.siteInfoService.GetSiteGeneral(ctx)
+	if err != nil {
+		return "", err
+	}
+	filePath := path.Join(us.serviceConfig.UploadPath, fileSubPath)
+	if err := ctx.SaveUploadedFile(file, filePath); err != nil {
+		return "", errors.InternalServer(reason.UnknownError).WithError(err).WithStack()
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		return "", errors.InternalServer(reason.UnknownError).WithError(err).WithStack()
+	}
+	defer src.Close()
+
+	url = fmt.Sprintf("%s/uploads/%s", siteGeneral.SiteUrl, fileSubPath)
+	return url, nil
 }
 
 func (us *uploaderService) uploadFile(ctx *gin.Context, file *multipart.FileHeader, fileSubPath string) (

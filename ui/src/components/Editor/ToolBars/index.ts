@@ -29,6 +29,7 @@ import Italice from './italic';
 import Code from './code';
 import Link from './link';
 import BlockQuote from './blockquote';
+import Attachment from './attachment';
 import Image from './image';
 import Help from './help';
 import Chart from './chart';
@@ -46,6 +47,7 @@ export {
   Code,
   Link,
   BlockQuote,
+  Attachment,
   Image,
   Help,
   Chart,
