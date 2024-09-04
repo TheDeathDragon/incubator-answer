@@ -21,7 +21,6 @@ import { memo, FC, useState, useEffect } from 'react';
 import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { FacebookShareButton, TwitterShareButton } from 'next-share';
 import copy from 'copy-to-clipboard';
 
 import { BASE_ORIGIN } from '@/router/alias';
@@ -98,22 +97,6 @@ const Index: FC<IProps> = ({ type, qid, aid, title }) => {
             {t('share.copy')}
           </Dropdown.Item>
         </OverlayTrigger>
-        <Dropdown.Item eventKey="facebook">
-          <FacebookShareButton
-            title={title}
-            url={baseUrl}
-            className="w-100 py-1 px-3 text-start">
-            {t('share.facebook')}
-          </FacebookShareButton>
-        </Dropdown.Item>
-        <Dropdown.Item>
-          <TwitterShareButton
-            title={title}
-            url={baseUrl}
-            className="w-100 py-1 px-3 text-start">
-            {t('share.twitter')}
-          </TwitterShareButton>
-        </Dropdown.Item>
         {canSystemShare && (
           <Dropdown.Item onClick={systemShare}>{t('share.via')}</Dropdown.Item>
         )}

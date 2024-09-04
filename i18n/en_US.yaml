@@ -643,29 +643,29 @@ ui:
     hr:
       text: Horizontal rule
     attachment:
-      text: Attachment
-      add_attachment: Add Attachment
-      tab_file: Local File
-      tab_url: Remote Link
+      text: 附件
+      add_attachment: 添加附件
+      tab_file: 本地文件
+      tab_url: 远程链接
       form_file:
         fields:
           file:
-            label: Select File
+            label: 选择文件
             msg:
-              empty: Please select a file
-              max_size: File size cannot exceed 50 MB
+              empty: 请选择一个文件
+              max_size: 文件大小不能超过 50 MB。
           desc:
-            label: File Description
+            label: 文件描述
       form_url:
         fields:
           url:
-            label: URL
+            label: 链接地址
             msg:
-              empty: Please enter a URL
+              empty: 请输入一个链接地址
           name:
-            label: File Name
-      btn_cancel: Cancel
-      btn_submit: Submit
+            label: 文件名
+      btn_cancel: 取消
+      btn_submit: 提交
     image:
       text: Image
       add_image: Add image
