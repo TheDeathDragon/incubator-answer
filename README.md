@@ -23,7 +23,7 @@ To learn more about the project, visit [answer.apache.org](https://answer.apache
 ### Running with docker
 
 ```bash
-docker run -d -p 9080:80 -v answer-data:/data --name answer apache/answer:1.3.6
+docker run -d -p 9080:80 -v answer-data:/data --name answer apache/answer:1.3.8
 ```
 
 For more information, see [Installation](https://answer.apache.org/docs/installation).

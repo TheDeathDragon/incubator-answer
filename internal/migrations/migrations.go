@@ -97,6 +97,7 @@ var migrations = []Migration{
 	NewMigration("v1.2.5", "add notification plugin and theme config", addNotificationPluginAndThemeConfig, true),
 	NewMigration("v1.3.0", "add review", addReview, false),
 	NewMigration("v1.3.6", "add hot score to question table", addQuestionHotScore, true),
+	NewMigration("v1.3.8", "add code highlight", noopMigration, true),
 }
 
 func GetMigrations() []Migration {
