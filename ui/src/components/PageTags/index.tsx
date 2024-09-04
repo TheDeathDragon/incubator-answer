@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,6 +20,9 @@
 
 import { FC, useEffect, useLayoutEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-light.css';
 
 import { REACT_BASE_PATH } from '@/router/alias';
 import { brandingStore, pageTagStore, siteInfoStore } from '@/stores';
@@ -78,6 +82,29 @@ const Index: FC = () => {
   useLayoutEffect(() => {
     setDocTitle();
   }, [pageTitle]);
+  useEffect(() => {
+    const theNode = document.querySelector('title');
+    if (theNode) {
+      const theConfig: MutationObserverInit = { childList: true, subtree: true, characterData: true };
+      const theCallback: MutationCallback = function (mutationsList: MutationRecord[], observer: MutationObserver) {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList' || mutation.type === 'characterData') {
+            console.log('Page changed:', document.title);
+            document.querySelectorAll('pre code').forEach((el) => {
+              hljs.highlightElement(el as HTMLElement);
+            });
+          }
+        }
+      };
+
+      const theObserver = new MutationObserver(theCallback);
+      theObserver.observe(theNode, theConfig);
+
+      return () => {
+        theObserver.disconnect();
+      };
+    }
+  }, []);
   return (
     <Helmet>
       <link
@@ -115,6 +142,8 @@ const Index: FC = () => {
         content={square_icon || favicon || '/favicon.ico'}
       />
       {/* Social media meta share tags end here */}
+      {/* <link rel="stylesheet" href="/static/highlight/styles/atom-one-light.css"/>
+      <script src="/static/highlight/highlight.min.js"/> */}
     </Helmet>
   );
 };

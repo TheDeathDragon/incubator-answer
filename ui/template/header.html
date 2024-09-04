@@ -76,28 +76,10 @@
             name="twitter:image"
             content="{{if $.siteinfo.Branding.Favicon }}{{$.siteinfo.Branding.Favicon}}{{else}}{{$.baseURL}}/favicon.ico{{end}}"
     />
-    <link rel="stylesheet" href="{{$.baseURL}}/static/highlight/styles/atom-one-light.css">
-    <script src="{{$.baseURL}}/static/highlight/highlight.min.js"></script>
-    <script>
-      const theNode = document.querySelector('title');
-      const theConfig = { childList: true, subtree: true, characterData: true };
-      const theCallback = function (mutationsList, observer) {
-        for (const mutation of mutationsList) {
-          if (mutation.type === 'childList' || mutation.type === 'characterData') {
-            console.log('Page changed:', document.title);
-            document.querySelectorAll('pre code').forEach((el) => {
-              hljs.highlightElement(el);
-            });
-          }
-        }
-      };
-      const theObserver = new MutationObserver(theCallback);
-      theObserver.observe(theNode, theConfig);
-    </script>
     <meta name="go-template">
     <!--customize_head-->
     {{if .HeadCode }} {{.HeadCode | templateHTML}} {{end}}
-    <!--customize_head-->
+    <!--customize_head--> 
   </head>
 
   <body>
